@@ -1,33 +1,114 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Opening Gaze...</title>
+  <title>Gaze — Opening room…</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700&display=swap" rel="stylesheet" />
   <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      margin: 0;
       background: #0A0A0A;
       color: #F4F0EB;
-      font-family: sans-serif;
+      font-family: 'Syne', sans-serif;
+      min-height: 100dvh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
-      text-align: center;
+      gap: 32px;
     }
-    p { color: #6B6B78; font-size: 14px; margin-top: 12px; }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo svg {
+      filter: drop-shadow(0 0 10px rgba(255, 77, 28, 0.7));
+    }
+
+    .logo-text {
+      font-size: 36px;
+      letter-spacing: 10px;
+      color: #F4F0EB;
+    }
+
+    .card {
+      background: #18181C;
+      border: 1px solid #252529;
+      border-radius: 20px;
+      padding: 32px 40px;
+      text-align: center;
+      max-width: 320px;
+      width: 90%;
+    }
+
+    .status {
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: #6B6B78;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 8px;
+      background: #FF4D1C;
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-decoration: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      transition: opacity 0.15s;
+    }
+
+    .btn:hover { opacity: 0.85; }
+
+    .note {
+      font-size: 11px;
+      color: #6B6B78;
+      margin-top: 16px;
+      line-height: 1.6;
+      font-family: sans-serif;
+      font-weight: 400;
+    }
   </style>
 </head>
 <body>
-  <div>
-    <div style="font-size: 22px; font-weight: bold; letter-spacing: 2px;">GAZE</div>
-    <p>Opening room…</p>
+  <div class="logo">
+    <!-- eye outline icon matching Ionicons "eye" -->
+    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 5C7 5 2.73 8.11 1 12.5C2.73 16.89 7 20 12 20C17 20 21.27 16.89 23 12.5C21.27 8.11 17 5 12 5Z" stroke="#FF4D1C" stroke-width="1.8" stroke-linejoin="round"/>
+      <circle cx="12" cy="12.5" r="3.5" stroke="#FF4D1C" stroke-width="1.8"/>
+    </svg>
+    <span class="logo-text">GAZE</span>
   </div>
+
+  <div class="card">
+    <div class="status" id="status">Opening room…</div>
+    <a class="btn" id="btn" href="#">OPEN IN APP</a>
+    <p class="note">Make sure you have Gaze installed.<br/>The app will open automatically.</p>
+  </div>
+
   <script>
     var id = new URLSearchParams(window.location.search).get('id');
-    if (id) {
-      window.location.replace('gaze://room/' + id);
+    var deepLink = id ? 'gaze://room/' + id : null;
+
+    if (deepLink) {
+      document.getElementById('btn').href = deepLink;
+      window.location.replace(deepLink);
+    } else {
+      document.getElementById('status').textContent = 'Invalid link';
+      document.getElementById('btn').style.display = 'none';
     }
   </script>
 </body>
